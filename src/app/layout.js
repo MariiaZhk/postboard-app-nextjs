@@ -1,6 +1,7 @@
 import NavBar from "@/components/NavBar";
 import StoreProvider from "../components/StoreProvider";
 import { Rubik } from "next/font/google";
+import { CssBaseline } from "@mui/material";
 
 export const metadata = {
   title: "Posts Board App",
@@ -17,6 +18,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={rubik.className}>
         <StoreProvider>
+          <CssBaseline />
           <NavBar />
           {children}
         </StoreProvider>
