@@ -1,15 +1,21 @@
 import NavBar from "@/components/NavBar";
-import StoreProvider from "./StoreProvider";
+import StoreProvider from "../components/StoreProvider";
+import { Rubik } from "next/font/google";
 
 export const metadata = {
-  title: "Post Board App",
-  description: "DOiT MVP posts board application",
+  title: "Posts Board App",
+  description: "DOiT posts board application",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
+
+const rubik = Rubik({ subsets: ["latin"] });
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      <body className={rubik.className}>
         <StoreProvider>
           <NavBar />
           {children}
