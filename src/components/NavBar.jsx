@@ -1,24 +1,25 @@
 "use client";
-import { useEffect, useState } from "react";
-import { AppBar, Toolbar, Typography, IconButton, Box } from "@mui/material";
-import { Brightness4, Brightness7 } from "@mui/icons-material";
-import { useTheme } from "next-themes";
-import MenuIcon from "@mui/icons-material/Menu";
+
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  useTheme,
+} from "@mui/material";
+import {
+  Brightness4,
+  Brightness7,
+  Menu as MenuIcon,
+} from "@mui/icons-material";
+import { useColorMode } from "./ThemeProvider";
 
 export default function NavBar() {
-  const { resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
-
-  const isDark = resolvedTheme === "dark";
+  const theme = useTheme();
+  const { toggleColorMode, mode } = useColorMode();
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ bgcolor: theme.palette.primary.main }}>
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
         <IconButton
           size="large"
@@ -34,11 +35,8 @@ export default function NavBar() {
           DOiT MVP
         </Typography>
 
-        <IconButton
-          onClick={() => setTheme(isDark ? "light" : "dark")}
-          color="inherit"
-        >
-          {isDark ? <Brightness7 /> : <Brightness4 />}
+        <IconButton onClick={toggleColorMode} color="inherit">
+          {mode === "dark" ? <Brightness7 /> : <Brightness4 />}
         </IconButton>
       </Toolbar>
     </AppBar>
