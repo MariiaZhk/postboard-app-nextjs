@@ -1,22 +1,20 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+:root {
+  --background: white;
+  --foreground: rgba(0, 0, 0, 0.87);
+}
 
-/* base styles */
+html.dark {
+  --background: rgb(41, 37, 37);
+  --foreground: white;
+}
+
+html,
 body {
-  background: #ebf0fa;
-  @apply text-gray-500 m-8;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
-h1,
-h2 {
-  @apply font-bold text-primary text-lg;
-}
-main {
-  @apply max-w-5xl my-12 mx-auto px-8;
-}
-main > h2 {
-  @apply mb-4 pb-2 text-base;
-}
-p > a {
-  @apply text-primary underline;
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  min-height: 100vh;
 }
