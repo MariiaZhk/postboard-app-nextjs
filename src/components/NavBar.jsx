@@ -7,12 +7,9 @@ import {
   IconButton,
   useTheme,
 } from "@mui/material";
-import {
-  Brightness4,
-  Brightness7,
-  Menu as MenuIcon,
-} from "@mui/icons-material";
+import { Brightness4, Brightness7 } from "@mui/icons-material";
 import { useColorMode } from "./ThemeProvider";
+import DrawerMenu from "./DrawerMenu";
 
 export default function NavBar() {
   const theme = useTheme();
@@ -21,16 +18,7 @@ export default function NavBar() {
   return (
     <AppBar position="static" sx={{ bgcolor: theme.palette.primary.main }}>
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-        <IconButton
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          sx={{ mr: 2 }}
-        >
-          <MenuIcon />
-        </IconButton>
-
+        <DrawerMenu />
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           DOiT MVP
         </Typography>

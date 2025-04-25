@@ -1,12 +1,13 @@
 "use client";
 import Link from "next/link";
 import { Box, Button, Card, Typography } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import AddIcon from "@mui/icons-material/Add";
 import { useTheme } from "@mui/material/styles";
 
 export default function Hero() {
   const theme = useTheme();
+
   return (
     <Box
       sx={{
@@ -36,35 +37,35 @@ export default function Hero() {
         </Typography>
 
         <Box sx={{ display: "flex", justifyContent: "center", gap: 3 }}>
-          <Link href="/posts" passHref>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<MenuIcon />}
-              sx={{ height: 40, px: 2.5 }}
-            >
-              Переглянути пости
-            </Button>
-          </Link>
+          <Button
+            component={Link}
+            href="/posts"
+            variant="contained"
+            color="primary"
+            sx={{ height: 40, px: 2.5 }}
+            startIcon={<FormatListBulletedIcon />}
+          >
+            Переглянути пости
+          </Button>
 
-          <Link href="/posts/create" passHref>
-            <Button
-              variant="outlined"
-              color="primary"
-              sx={{ height: 40, px: 2.5 }}
-              startIcon={
-                <AddIcon
-                  sx={{
-                    bgcolor: "primary.main",
-                    borderRadius: "50%",
-                    color: theme.palette.background.default,
-                  }}
-                />
-              }
-            >
-              Додати пост
-            </Button>
-          </Link>
+          <Button
+            component={Link}
+            href="/posts/create"
+            variant="outlined"
+            color="primary"
+            sx={{ height: 40, px: 2.5 }}
+            startIcon={
+              <AddIcon
+                sx={{
+                  bgcolor: "primary.main",
+                  borderRadius: "50%",
+                  color: theme.palette.background.default,
+                }}
+              />
+            }
+          >
+            Додати пост
+          </Button>
         </Box>
       </Card>
     </Box>

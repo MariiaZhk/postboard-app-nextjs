@@ -20,13 +20,13 @@ const getMuiTheme = (mode) =>
     palette: {
       mode,
       primary: { main: "#2196f3" },
-      secondary: { main: "#96000f" },
+      secondary: { main: "#353535" },
       background: {
-        default: mode === "light" ? "#ffffff" : "#292525",
-        paper: mode === "light" ? "#ffffff" : "#292525",
+        default: mode === "light" ? "#ffffff" : "#090909",
+        paper: mode === "light" ? "#ffffff" : "#090909",
       },
       text: {
-        primary: mode === "light" ? "rgba(0, 0, 0, 0.87)" : "#ffffff",
+        primary: mode === "light" ? "#090909" : "#ffffff",
       },
     },
     typography: {

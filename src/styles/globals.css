@@ -15,11 +15,11 @@ main {
   padding: 2rem 1rem;
 }
 
-button:focus,
+/* button:focus,
 input:focus,
 textarea:focus {
   outline: none;
-}
+} */
 
 button {
   border: none;
