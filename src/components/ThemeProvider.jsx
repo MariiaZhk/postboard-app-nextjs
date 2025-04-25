@@ -1,5 +1,4 @@
 "use client";
-
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import {
   ThemeProvider as MuiThemeProvider,
@@ -17,6 +16,7 @@ export const useColorMode = () => useContext(ColorModeContext);
 
 const getMuiTheme = (mode) =>
   createTheme({
+    cssVariables: true,
     palette: {
       mode,
       primary: { main: "#2196f3" },
@@ -32,7 +32,6 @@ const getMuiTheme = (mode) =>
     typography: {
       fontFamily: rubik.style.fontFamily,
     },
-
     custom: {
       heroGradient:
         mode === "light"
@@ -42,24 +41,33 @@ const getMuiTheme = (mode) =>
   });
 
 export function ThemeProvider({ children }) {
-  const [mode, setMode] = useState("light");
+  const [mode, setMode] = useState(null);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "light" || savedTheme === "dark") {
       setMode(savedTheme);
+    } else {
+      setMode("light");
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("theme", mode);
+    if (mode !== null) {
+      localStorage.setItem("theme", mode);
+    }
   }, [mode]);
 
   const toggleColorMode = () => {
     setMode((prev) => (prev === "light" ? "dark" : "light"));
   };
 
-  const theme = useMemo(() => getMuiTheme(mode), [mode]);
+  const theme = useMemo(
+    () => (mode ? getMuiTheme(mode) : getMuiTheme("light")),
+    [mode]
+  );
+
+  if (mode === null) return null;
 
   return (
     <ColorModeContext.Provider value={{ toggleColorMode, mode }}>

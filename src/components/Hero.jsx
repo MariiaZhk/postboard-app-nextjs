@@ -10,7 +10,6 @@ export default function Hero() {
   return (
     <Box
       sx={{
-        minHeight: "100vh",
         display: "flex",
         alignItems: "flex-start",
         justifyContent: "center",
@@ -26,10 +25,7 @@ export default function Hero() {
           textAlign: "center",
           p: 5,
           borderRadius: 3,
-          background:
-            theme.palette.mode === "light"
-              ? "linear-gradient(130deg, #cee8f8 20%, #f8d8eb 110%)"
-              : "linear-gradient(130deg, #2f3536 35%, #581fa2 110%)",
+          background: theme.custom.heroGradient,
         }}
       >
         <Typography variant="h3" sx={{ mb: 2 }}>
@@ -55,24 +51,15 @@ export default function Hero() {
             <Button
               variant="outlined"
               color="primary"
-              sx={{
-                height: 40,
-                px: 2.5,
-              }}
+              sx={{ height: 40, px: 2.5 }}
               startIcon={
-                <Box
+                <AddIcon
                   sx={{
-                    backgroundColor: "primary.main",
+                    bgcolor: "primary.main",
                     borderRadius: "50%",
-                    width: 24,
-                    height: 24,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
+                    color: theme.palette.background.default,
                   }}
-                >
-                  <AddIcon sx={{ opacity: 0 }} />
-                </Box>
+                />
               }
             >
               Додати пост
