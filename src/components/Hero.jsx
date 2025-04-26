@@ -26,7 +26,7 @@ export default function Hero() {
           textAlign: "center",
           p: 5,
           borderRadius: 3,
-          background: theme.custom.heroGradient,
+          background: (theme) => theme.custom.heroGradient,
         }}
       >
         <Typography variant="h3" sx={{ mb: 2 }}>
@@ -59,7 +59,7 @@ export default function Hero() {
                 sx={{
                   bgcolor: "primary.main",
                   borderRadius: "50%",
-                  color: theme.palette.background.default,
+                  color: "background.default",
                 }}
               />
             }

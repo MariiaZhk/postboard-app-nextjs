@@ -24,7 +24,7 @@ export default function DrawerMenu() {
     <>
       <IconButton
         edge="start"
-        color="inherit" // Використовуємо колір, залежно від теми
+        color="inherit"
         onClick={toggleDrawer}
         sx={{ mr: 2 }}
       >
@@ -45,7 +45,7 @@ export default function DrawerMenu() {
           <Button
             component={Link}
             href="/"
-            color="inherit" // Кнопка буде мати колір, що залежить від теми
+            color="inherit"
             startIcon={<HomeIcon />}
             sx={{
               textTransform: "none",
@@ -84,9 +84,9 @@ export default function DrawerMenu() {
             startIcon={
               <AddIcon
                 sx={{
-                  bgcolor: "secondary.main",
+                  bgcolor: "background.buttons",
+                  color: theme.palette.transparent,
                   borderRadius: "50%",
-                  color: theme.palette.background.default,
                 }}
               />
             }

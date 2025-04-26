@@ -7,28 +7,38 @@ import {
 } from "@mui/material";
 import { rubik } from "@/styles/fonts";
 
-const ColorModeContext = createContext({
-  toggleColorMode: () => {},
-  mode: "light",
-});
+const paletteLight = {
+  primary: { main: "#2196f3" },
+  secondary: { main: "#3f3d3d" },
+  background: {
+    default: "#ffffff",
+    paper: "#fffdfd",
+    buttons: "#3f3d3d",
+  },
+  text: {
+    primary: "#090909",
+  },
+  transparent: "transparent",
+};
 
-export const useColorMode = () => useContext(ColorModeContext);
+const paletteDark = {
+  primary: { main: "#2196f3" },
+  secondary: { main: "#3f3d3d" },
+  background: {
+    default: "#090909",
+    paper: "#3f3d3d",
+    buttons: "#ffffff",
+  },
+  text: {
+    primary: "#ffffff",
+  },
+  transparent: "transparent",
+};
 
 const getMuiTheme = (mode) =>
   createTheme({
-    cssVariables: true,
-    palette: {
-      mode,
-      primary: { main: "#2196f3" },
-      secondary: { main: "#353535" },
-      background: {
-        default: mode === "light" ? "#ffffff" : "#090909",
-        paper: mode === "light" ? "#ffffff" : "#090909",
-      },
-      text: {
-        primary: mode === "light" ? "#090909" : "#ffffff",
-      },
-    },
+    cssVarPrefix: "mui",
+    palette: mode === "light" ? paletteLight : paletteDark,
     typography: {
       fontFamily: rubik.style.fontFamily,
     },
@@ -39,6 +49,13 @@ const getMuiTheme = (mode) =>
           : "linear-gradient(130deg, #2f3536 35%, #581fa2 110%)",
     },
   });
+
+const ColorModeContext = createContext({
+  toggleColorMode: () => {},
+  mode: "light",
+});
+
+export const useColorMode = () => useContext(ColorModeContext);
 
 export function ThemeProvider({ children }) {
   const [mode, setMode] = useState(null);
@@ -62,12 +79,11 @@ export function ThemeProvider({ children }) {
     setMode((prev) => (prev === "light" ? "dark" : "light"));
   };
 
-  const theme = useMemo(
-    () => (mode ? getMuiTheme(mode) : getMuiTheme("light")),
-    [mode]
-  );
+  const theme = getMuiTheme(mode);
 
-  if (mode === null) return null;
+  if (mode === null) {
+    return null;
+  }
 
   return (
     <ColorModeContext.Provider value={{ toggleColorMode, mode }}>
