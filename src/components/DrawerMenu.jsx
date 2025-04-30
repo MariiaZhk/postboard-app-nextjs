@@ -45,7 +45,7 @@ export default function DrawerMenu() {
           <Button
             component={Link}
             href="/"
-            color="inherit"
+            color="buttons"
             startIcon={<HomeIcon />}
             sx={{
               textTransform: "none",
@@ -60,7 +60,7 @@ export default function DrawerMenu() {
           <Button
             component={Link}
             href="/posts"
-            color="inherit"
+            color="buttons"
             startIcon={<FormatListBulletedIcon />}
             sx={{
               textTransform: "none",
@@ -75,7 +75,7 @@ export default function DrawerMenu() {
           <Button
             component={Link}
             href="/posts/create"
-            color="inherit"
+            color="buttons"
             sx={{
               textTransform: "none",
               width: "100%",
@@ -84,8 +84,8 @@ export default function DrawerMenu() {
             startIcon={
               <AddIcon
                 sx={{
-                  bgcolor: "background.buttons",
-                  color: theme.palette.transparent,
+                  backgroundColor: theme.palette.background.buttons,
+                  color: theme.palette.background.paper,
                   borderRadius: "50%",
                 }}
               />

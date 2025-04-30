@@ -9,21 +9,24 @@ import { rubik } from "@/styles/fonts";
 
 const paletteLight = {
   primary: { main: "#2196f3" },
-  secondary: { main: "#3f3d3d" },
+  secondary: { main: "#797676" },
+  error: { main: "#e21c18" },
   background: {
     default: "#ffffff",
-    paper: "#fffdfd",
+    paper: "#ffffff",
     buttons: "#3f3d3d",
   },
   text: {
     primary: "#090909",
+    secondary: "#797676",
   },
   transparent: "transparent",
 };
 
 const paletteDark = {
   primary: { main: "#2196f3" },
-  secondary: { main: "#3f3d3d" },
+  secondary: { main: "#797676" },
+  error: { main: "#e21c18" },
   background: {
     default: "#090909",
     paper: "#3f3d3d",
@@ -31,6 +34,7 @@ const paletteDark = {
   },
   text: {
     primary: "#ffffff",
+    secondary: "#797676",
   },
   transparent: "transparent",
 };
