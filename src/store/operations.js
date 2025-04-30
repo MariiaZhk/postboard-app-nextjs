@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getPosts, createPost, updatePost, deletePost } from "../services/api";
+import { getPosts, createPost, updatePost, deletePost } from "@/services/api";
 
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   const posts = await getPosts();

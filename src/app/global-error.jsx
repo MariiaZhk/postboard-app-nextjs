@@ -6,7 +6,7 @@ import { Box, Typography, Button } from "@mui/material";
 export default function GlobalError({ error, reset }) {
   console.log("Global error component loaded");
   return (
-    <Box sx={{ padding: "2rem", textAlign: "center" }}>
+    <Box sx={{ padding: "4rem", textAlign: "center" }}>
       <Typography variant="h4" gutterBottom>
         Internal Error
       </Typography>

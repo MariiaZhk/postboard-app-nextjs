@@ -20,7 +20,7 @@ const postsSlice = createSlice({
         state.loading = true;
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
-        state.items = action.payload;
+        state.items = action.payload || [];
         state.loading = false;
       })
       .addCase(fetchPosts.rejected, (state, action) => {
@@ -68,4 +68,5 @@ const postsSlice = createSlice({
   },
 });
 
-export default postsSlice.reducer;
+const postsReducer = postsSlice.reducer;
+export default postsReducer;

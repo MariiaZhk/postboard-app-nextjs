@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import {
   ThemeProvider as MuiThemeProvider,
   createTheme,
@@ -58,19 +58,17 @@ const ColorModeContext = createContext({
 export const useColorMode = () => useContext(ColorModeContext);
 
 export function ThemeProvider({ children }) {
-  const [mode, setMode] = useState(null);
+  const [mode, setMode] = useState("light");
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "light" || savedTheme === "dark") {
       setMode(savedTheme);
-    } else {
-      setMode("light");
     }
   }, []);
 
   useEffect(() => {
-    if (mode !== null) {
+    if (mode) {
       localStorage.setItem("theme", mode);
     }
   }, [mode]);
@@ -80,10 +78,6 @@ export function ThemeProvider({ children }) {
   };
 
   const theme = getMuiTheme(mode);
-
-  if (mode === null) {
-    return null;
-  }
 
   return (
     <ColorModeContext.Provider value={{ toggleColorMode, mode }}>
