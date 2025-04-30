@@ -42,7 +42,7 @@ export default function PostCard({ post }) {
           avatar={
             <Avatar
               sx={{
-                bgcolor: theme.palette.secondary,
+                bgcolor: theme.palette.secondary.main,
               }}
             >
               {post.title.charAt(0).toUpperCase()}

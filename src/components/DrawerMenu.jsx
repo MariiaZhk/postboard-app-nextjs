@@ -31,7 +31,12 @@ export default function DrawerMenu() {
         <MenuIcon />
       </IconButton>
 
-      <Drawer anchor="left" open={open} onClose={toggleDrawer}>
+      <Drawer
+        anchor="left"
+        open={open}
+        onClose={toggleDrawer}
+        color="background.paper"
+      >
         <Box
           sx={{
             width: 340,

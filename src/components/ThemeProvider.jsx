@@ -9,7 +9,7 @@ import { rubik } from "@/styles/fonts";
 
 const paletteLight = {
   primary: { main: "#2196f3" },
-  secondary: { main: "#797676" },
+  secondary: { main: "#8d8d8d" },
   error: { main: "#e21c18" },
   background: {
     default: "#ffffff",
@@ -18,25 +18,24 @@ const paletteLight = {
   },
   text: {
     primary: "#090909",
-    secondary: "#797676",
+    secondary: "#8d8d8d",
   },
-  transparent: "transparent",
 };
 
 const paletteDark = {
   primary: { main: "#2196f3" },
-  secondary: { main: "#797676" },
+  secondary: { main: "#8d8d8d" },
+
   error: { main: "#e21c18" },
   background: {
     default: "#090909",
-    paper: "#3f3d3d",
+    paper: "#1d1c1c",
     buttons: "#ffffff",
   },
   text: {
     primary: "#ffffff",
-    secondary: "#797676",
+    secondary: "#8d8d8d",
   },
-  transparent: "transparent",
 };
 
 const getMuiTheme = (mode) =>
