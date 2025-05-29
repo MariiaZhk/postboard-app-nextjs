@@ -1,10 +1,12 @@
+"use client";
+
+import { Box } from "@mui/material";
 import PostsList from "@/components/PostsList";
-import React from "react";
 
 export default function PostsPage() {
   return (
-    <div>
+    <Box sx={{ px: 16, py: 3, mx: "auto" }}>
       <PostsList />
-    </div>
+    </Box>
   );
 }

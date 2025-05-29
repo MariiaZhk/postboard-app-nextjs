@@ -37,14 +37,10 @@ export default function PostCard({ post }) {
 
   return (
     <>
-      <Card sx={{ bgColor: theme.palette.background.paper }}>
+      <Card sx={{ bgcolor: theme.palette.background.paper, maxWidth: 500 }}>
         <CardHeader
           avatar={
-            <Avatar
-              sx={{
-                bgcolor: theme.palette.secondary.main,
-              }}
-            >
+            <Avatar sx={{ bgcolor: theme.palette.secondary.main }}>
               {post.title.charAt(0).toUpperCase()}
             </Avatar>
           }
@@ -68,6 +64,7 @@ export default function PostCard({ post }) {
             {post.body.slice(0, 100)}...
           </Typography>
         </CardContent>
+
         <CardActions>
           <Button
             component={Link}

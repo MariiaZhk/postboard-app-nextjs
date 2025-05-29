@@ -1,4 +1,5 @@
 "use client";
+
 import { createContext, useContext, useEffect, useState } from "react";
 import {
   ThemeProvider as MuiThemeProvider,
@@ -25,7 +26,6 @@ const paletteLight = {
 const paletteDark = {
   primary: { main: "#2196f3" },
   secondary: { main: "#8d8d8d" },
-
   error: { main: "#e21c18" },
   background: {
     default: "#090909",
@@ -33,7 +33,7 @@ const paletteDark = {
     buttons: "#ffffff",
   },
   text: {
-    primary: "#ffffff",
+    primary: "#ede4e4",
     secondary: "#8d8d8d",
   },
 };
@@ -44,6 +44,34 @@ const getMuiTheme = (mode) =>
     palette: mode === "light" ? paletteLight : paletteDark,
     typography: {
       fontFamily: rubik.style.fontFamily,
+    },
+    components: {
+      MuiOutlinedInput: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            color: theme.palette.text.primary,
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderColor: theme.palette.text.secondary,
+            },
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: theme.palette.text.primary,
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: theme.palette.primary.main,
+            },
+            "& input": {
+              color: theme.palette.text.primary,
+            },
+          }),
+        },
+      },
+      MuiInputLabel: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            color: theme.palette.text.secondary,
+          }),
+        },
+      },
     },
     custom: {
       heroGradient:
@@ -71,9 +99,7 @@ export function ThemeProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    if (mode) {
-      localStorage.setItem("theme", mode);
-    }
+    localStorage.setItem("theme", mode);
   }, [mode]);
 
   const toggleColorMode = () => {

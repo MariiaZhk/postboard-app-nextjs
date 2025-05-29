@@ -31,12 +31,7 @@ export default function DrawerMenu() {
         <MenuIcon />
       </IconButton>
 
-      <Drawer
-        anchor="left"
-        open={open}
-        onClose={toggleDrawer}
-        color="background.paper"
-      >
+      <Drawer anchor="left" open={open} onClose={toggleDrawer}>
         <Box
           sx={{
             width: 340,
@@ -59,7 +54,7 @@ export default function DrawerMenu() {
             }}
             onClick={handleLinkClick}
           >
-            Головна
+            Home
           </Button>
 
           <Button
@@ -74,7 +69,7 @@ export default function DrawerMenu() {
             }}
             onClick={handleLinkClick}
           >
-            Переглянути пости
+            View Posts
           </Button>
 
           <Button
@@ -97,7 +92,7 @@ export default function DrawerMenu() {
             }
             onClick={handleLinkClick}
           >
-            Створити пост
+            Create Post
           </Button>
         </Box>
       </Drawer>

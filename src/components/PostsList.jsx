@@ -1,14 +1,22 @@
 "use client";
 
-import { Grid, TextField, InputAdornment, Skeleton, Fab } from "@mui/material";
+import {
+  Grid,
+  TextField,
+  InputAdornment,
+  Fab,
+  Typography,
+  CircularProgress,
+} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { fetchPosts } from "@/store/operations";
 import { selectPosts, selectLoading, selectError } from "@/store/selectors";
 import PostCard from "./PostCard";
 import Link from "next/link";
+import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 
 const POSTS_PER_PAGE = 9;
 
@@ -29,73 +37,51 @@ export default function PostsList() {
   }, [allItems, search]);
 
   useEffect(() => {
-    const nextPosts = filtered.slice(0, page * POSTS_PER_PAGE);
-    setDisplayedPosts(nextPosts);
-  }, [filtered, page]);
-
-  useEffect(() => {
     dispatch(fetchPosts());
   }, [dispatch]);
 
-  const loadMoreRef = useRef(null);
+  useEffect(() => {
+    setDisplayedPosts(filtered.slice(0, page * POSTS_PER_PAGE));
+  }, [filtered, page]);
 
   useEffect(() => {
-    if (loading) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (
-          entries[0].isIntersecting &&
-          displayedPosts.length < filtered.length
-        ) {
-          setPage((prev) => prev + 1);
-        }
-      },
-      { threshold: 1 }
-    );
-    const node = loadMoreRef.current;
-    if (node) observer.observe(node);
-    return () => {
-      if (node) observer.unobserve(node);
-    };
-  }, [displayedPosts, filtered.length, loading]);
+    setPage(1);
+  }, [search]);
+
+  const loadMoreRef = useIntersectionObserver(() => {
+    if (!loading && displayedPosts.length < filtered.length) {
+      setPage((prev) => prev + 1);
+    }
+  });
 
   return (
     <>
       <TextField
-        label="Search posts"
+        placeholder="Search by title"
         variant="outlined"
         fullWidth
         margin="normal"
         value={search}
-        onChange={(e) => {
-          setSearch(e.target.value);
-          setPage(1);
-        }}
+        onChange={(e) => setSearch(e.target.value)}
         slotProps={{
           input: {
             startAdornment: (
               <InputAdornment position="start">
-                <SearchIcon />
+                <SearchIcon
+                  sx={{ color: (theme) => theme.palette.text.primary }}
+                />
               </InputAdornment>
             ),
           },
         }}
       />
 
-      {loading && !allItems.length ? (
-        <Grid container spacing={12}>
-          {displayedPosts.map((post) => (
-            <Grid item xs={12} sm={6} md={4} key={post.id}>
-              <PostCard post={post} />
-            </Grid>
-          ))}
-        </Grid>
-      ) : error ? (
-        <p>Error: {error}</p>
+      {error ? (
+        <Typography color="error">Error: {error}</Typography>
       ) : (
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{ marginTop: 2, width: "100%" }}>
           {displayedPosts.map((post) => (
-            <Grid key={post.id}>
+            <Grid key={post.id} item xs={12} sm={6} md={4}>
               <PostCard post={post} />
             </Grid>
           ))}
@@ -108,7 +94,7 @@ export default function PostsList() {
         <Fab
           color="primary"
           aria-label="add"
-          sx={{ position: "fixed", bottom: 16, right: 16 }}
+          sx={{ position: "fixed", bottom: 48, right: 24 }}
         >
           <AddIcon />
         </Fab>
