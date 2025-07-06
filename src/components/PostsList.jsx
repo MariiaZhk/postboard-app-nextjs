@@ -55,7 +55,7 @@ export default function PostsList() {
   });
 
   return (
-    <>
+    <Box sx={{ maxWidth: 1440, mx: "auto", px: 2 }}>
       <TextField
         placeholder="Search by title"
         variant="outlined"
@@ -81,10 +81,27 @@ export default function PostsList() {
           Error: {error}
         </Typography>
       ) : (
-        <Grid container spacing={2} sx={{ my: 2, mx: "auto" }}>
+        <Grid container spacing={2} justifyContent="space-between" mt={2}>
           {displayedPosts.map((post) => (
-            <Grid key={post.id} item xs={12} sm={6} md={4}>
-              <PostCard post={post} />
+            <Grid
+              key={post.id}
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
+              <Box
+                sx={{
+                  width: "100%",
+                  maxWidth: 450,
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                }}
+              >
+                <PostCard post={post} />
+              </Box>
             </Grid>
           ))}
         </Grid>
@@ -101,6 +118,6 @@ export default function PostsList() {
           <AddIcon />
         </Fab>
       </Link>
-    </>
+    </Box>
   );
 }

@@ -37,7 +37,14 @@ export default function PostCard({ post }) {
 
   return (
     <>
-      <Card sx={{ bgcolor: theme.palette.background.paper, maxWidth: 500 }}>
+      <Card
+        sx={{
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          bgcolor: theme.palette.background.paper,
+        }}
+      >
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: theme.palette.secondary.main }}>
@@ -53,13 +60,25 @@ export default function PostCard({ post }) {
               <DeleteIcon />
             </IconButton>
           }
-          title={<Typography color="text.primary">{post.title}</Typography>}
+          title={
+            <Typography
+              sx={{
+                display: "-webkit-box",
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {post.title}
+            </Typography>
+          }
           subheader={
             <Typography color="text.secondary">{`User: ${post.userId}`}</Typography>
           }
         />
 
-        <CardContent>
+        <CardContent sx={{ flexGrow: 1 }}>
           <Typography variant="body2" color="text.primary">
             {post.body.slice(0, 100)}...
           </Typography>
