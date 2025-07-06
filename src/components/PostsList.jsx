@@ -6,7 +6,7 @@ import {
   InputAdornment,
   Fab,
   Typography,
-  CircularProgress,
+  Box,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
@@ -77,9 +77,11 @@ export default function PostsList() {
       />
 
       {error ? (
-        <Typography color="error">Error: {error}</Typography>
+        <Typography color="error" align="center" mt={2}>
+          Error: {error}
+        </Typography>
       ) : (
-        <Grid container spacing={2} sx={{ marginTop: 2, width: "100%" }}>
+        <Grid container spacing={2} sx={{ my: 2, mx: "auto" }}>
           {displayedPosts.map((post) => (
             <Grid key={post.id} item xs={12} sm={6} md={4}>
               <PostCard post={post} />

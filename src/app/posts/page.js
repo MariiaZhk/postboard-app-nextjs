@@ -5,7 +5,7 @@ import PostsList from "@/components/PostsList";
 
 export default function PostsPage() {
   return (
-    <Box sx={{ px: 16, py: 3, mx: "auto" }}>
+    <Box sx={{ px: 14, py: 3, mx: "auto" }}>
       <PostsList />
     </Box>
   );
