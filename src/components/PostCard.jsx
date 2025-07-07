@@ -18,10 +18,18 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Link from "next/link";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { selectPost } from "@/store/postsSlice";
+import { deleteExistingPost } from "@/store/operations";
 
 export default function PostCard({ post }) {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleSelectPost = () => {
+    dispatch(selectPost(post));
+  };
 
   const handleDeleteClick = (e) => {
     e.currentTarget.blur();
@@ -31,7 +39,7 @@ export default function PostCard({ post }) {
   const handleClose = () => setOpen(false);
 
   const handleConfirmDelete = () => {
-    console.log("Confirmed delete post", post.id);
+    dispatch(deleteExistingPost(post.id));
     setOpen(false);
   };
 
@@ -90,6 +98,7 @@ export default function PostCard({ post }) {
             href={`/posts/${post.id}`}
             aria-label="read more"
             color="text.primary"
+            onClick={handleSelectPost}
           >
             <ArrowForwardIcon />
           </Button>

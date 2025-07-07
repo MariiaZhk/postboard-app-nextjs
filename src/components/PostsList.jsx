@@ -37,8 +37,10 @@ export default function PostsList() {
   }, [allItems, search]);
 
   useEffect(() => {
-    dispatch(fetchPosts());
-  }, [dispatch]);
+    if (allItems.length === 0) {
+      dispatch(fetchPosts());
+    }
+  }, [dispatch, allItems.length]);
 
   useEffect(() => {
     setDisplayedPosts(filtered.slice(0, page * POSTS_PER_PAGE));
@@ -52,10 +54,10 @@ export default function PostsList() {
     if (!loading && displayedPosts.length < filtered.length) {
       setPage((prev) => prev + 1);
     }
-  });
+  }, [loading, displayedPosts.length, filtered.length]);
 
   return (
-    <Box sx={{ maxWidth: 1440, mx: "auto", px: 2 }}>
+    <Box sx={{ maxWidth: 1440, mx: "auto", px: 2, mt: 2 }}>
       <TextField
         placeholder="Search by title"
         variant="outlined"
@@ -74,6 +76,7 @@ export default function PostsList() {
             ),
           },
         }}
+        sx={{ mx: "auto" }}
       />
 
       {error ? (
@@ -81,20 +84,13 @@ export default function PostsList() {
           Error: {error}
         </Typography>
       ) : (
-        <Grid container spacing={2} justifyContent="space-between" mt={2}>
+        <Grid container spacing={2} justifyContent="center">
           {displayedPosts.map((post) => (
-            <Grid
-              key={post.id}
-              item
-              xs={12}
-              sm={6}
-              md={4}
-              sx={{ display: "flex", justifyContent: "center" }}
-            >
+            <Grid key={post.id} item xs={12} sm={6}>
               <Box
                 sx={{
                   width: "100%",
-                  maxWidth: 450,
+                  maxWidth: 458,
                   display: "flex",
                   flexDirection: "column",
                   height: "100%",

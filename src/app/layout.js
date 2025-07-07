@@ -1,7 +1,8 @@
 import { ThemeProvider } from "@/components/ThemeProvider";
-import NavBar from "@/components/NavBar";
+import NavBar from "@/components/NavBar/NavBar.jsx";
 import "@/styles/globals.css";
 import StoreProvider from "@/components/StoreProvider";
+import { NavBarProvider } from "@/components/NavBar/NavBarContext";
 
 export const metadata = {
   title: "Posts Board App",
@@ -17,8 +18,10 @@ export default function RootLayout({ children }) {
       <body>
         <StoreProvider>
           <ThemeProvider>
-            <NavBar />
-            {children}
+            <NavBarProvider>
+              <NavBar />
+              {children}
+            </NavBarProvider>
           </ThemeProvider>
         </StoreProvider>
       </body>
