@@ -19,17 +19,13 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Link from "next/link";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { selectPost } from "@/store/postsSlice";
 import { deleteExistingPost } from "@/store/operations";
+import ConfirmDialog from "./ConfirmDialog";
 
 export default function PostCard({ post }) {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
-
-  const handleSelectPost = () => {
-    dispatch(selectPost(post));
-  };
 
   const handleDeleteClick = (e) => {
     e.currentTarget.blur();
@@ -98,24 +94,21 @@ export default function PostCard({ post }) {
             href={`/posts/${post.id}`}
             aria-label="read more"
             color="text.primary"
-            onClick={handleSelectPost}
           >
             <ArrowForwardIcon />
           </Button>
         </CardActions>
       </Card>
 
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Delete this post?</DialogTitle>
-        <MuiDialogActions sx={{ justifyContent: "center", gap: 4 }}>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            Cancel
-          </Button>
-          <Button onClick={handleConfirmDelete} color="error">
-            Delete
-          </Button>
-        </MuiDialogActions>
-      </Dialog>
+      <ConfirmDialog
+        open={open}
+        onClose={() => setOpen(false)}
+        onConfirm={() => {
+          dispatch(deleteExistingPost(post.id));
+          setOpen(false);
+        }}
+        title="Delete this post?"
+      />
     </>
   );
 }

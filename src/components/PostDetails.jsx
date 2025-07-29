@@ -14,6 +14,7 @@ import {
   DialogTitle,
   DialogContent,
   Badge,
+  LinearProgress,
 } from "@mui/material";
 
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -23,17 +24,29 @@ import { useParams, useRouter } from "next/navigation";
 import { useNavBar } from "./NavBar/NavBarContext";
 import { deleteExistingPost, fetchPostById } from "@/store/operations";
 import { useDispatch, useSelector } from "react-redux";
-import { selectSelectedPost } from "@/store/selectors";
+import { selectSelectedPost, selectLoading } from "@/store/selectors";
+import { resetSelectedPost } from "@/store/postsSlice";
+import ConfirmDialog from "./ConfirmDialog";
 
 export default function PostDetails() {
   const router = useRouter();
+  const { id } = useParams();
   const { setTitle, setActions } = useNavBar();
   const [openComments, setOpenComments] = useState(false);
-  const selectedPost = useSelector(selectSelectedPost);
   const dispatch = useDispatch();
+  const selectedPost = useSelector(selectSelectedPost);
+  const loading = useSelector(selectLoading);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
   useEffect(() => {
-    setTitle(`Post #${selectedPost.id}`);
+    dispatch(fetchPostById(id));
+    return () => {
+      dispatch(resetSelectedPost());
+    };
+  }, [id]);
+
+  useEffect(() => {
+    setTitle(`Post #${id}`);
     setActions(
       <IconButton color="inherit" onClick={() => setOpenComments(true)}>
         <Badge badgeContent={3} color="error">
@@ -41,18 +54,27 @@ export default function PostDetails() {
         </Badge>
       </IconButton>
     );
-
     return () => {
       setTitle("DOiT MVP");
       setActions(null);
     };
-  }, [selectedPost]);
+  }, [id]);
 
   const handleBack = () => router.push("/posts");
 
   const handleDelete = () => {
     dispatch(deleteExistingPost(selectedPost.id));
+    handleBack();
   };
+
+  if (loading || !selectedPost) {
+    return (
+      <Box sx={{ mt: 2 }}>
+        <LinearProgress />
+        <Typography sx={{ mt: 2, px: 2 }}>Loading post details...</Typography>
+      </Box>
+    );
+  }
 
   return (
     <>
@@ -71,7 +93,7 @@ export default function PostDetails() {
             <Typography variant="body1">{selectedPost.body}</Typography>
           </CardContent>
           <CardActions>
-            <Button color="error" onClick={handleDelete}>
+            <Button color="error" onClick={() => setOpenDeleteDialog(true)}>
               <DeleteIcon sx={{ mr: 1 }} />
               Delete
             </Button>
@@ -86,6 +108,16 @@ export default function PostDetails() {
           <Typography>Comments go here (fetch later)</Typography>
         </DialogContent>
       </Dialog>
+
+      <ConfirmDialog
+        open={openDeleteDialog}
+        onClose={() => setOpenDeleteDialog(false)}
+        onConfirm={() => {
+          handleDelete();
+          setOpenDeleteDialog(false);
+        }}
+        title="Delete this post?"
+      />
     </>
   );
 }

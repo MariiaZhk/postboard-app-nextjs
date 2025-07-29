@@ -16,8 +16,8 @@ const postsSlice = createSlice({
     error: null,
   },
   reducers: {
-    selectPost: (state, action) => {
-      state.selectedPost = action.payload;
+    resetSelectedPost(state) {
+      state.selectedPost = null;
     },
   },
   extraReducers: (builder) => {
@@ -85,5 +85,5 @@ const postsSlice = createSlice({
   },
 });
 
-export const { selectPost } = postsSlice.actions;
+export const { resetSelectedPost } = postsSlice.actions;
 export const postsReducer = postsSlice.reducer;
