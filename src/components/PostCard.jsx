@@ -9,9 +9,6 @@ import {
   IconButton,
   Typography,
   Button,
-  Dialog,
-  DialogTitle,
-  DialogActions as MuiDialogActions,
   useTheme,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -30,13 +27,6 @@ export default function PostCard({ post }) {
   const handleDeleteClick = (e) => {
     e.currentTarget.blur();
     setOpen(true);
-  };
-
-  const handleClose = () => setOpen(false);
-
-  const handleConfirmDelete = () => {
-    dispatch(deleteExistingPost(post.id));
-    setOpen(false);
   };
 
   return (

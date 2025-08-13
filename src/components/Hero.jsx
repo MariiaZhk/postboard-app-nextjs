@@ -6,8 +6,6 @@ import AddIcon from "@mui/icons-material/Add";
 import { useTheme } from "@mui/material/styles";
 
 export default function Hero() {
-  const theme = useTheme();
-
   return (
     <Box
       sx={{

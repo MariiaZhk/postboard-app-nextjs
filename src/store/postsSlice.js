@@ -5,6 +5,7 @@ import {
   updateExistingPost,
   deleteExistingPost,
   fetchPostById,
+  fetchCommentsByPostId,
 } from "./operations";
 
 const postsSlice = createSlice({
@@ -12,6 +13,7 @@ const postsSlice = createSlice({
   initialState: {
     posts: [],
     selectedPost: null,
+    commentsByPostId: [],
     loading: false,
     error: null,
   },
@@ -44,6 +46,18 @@ const postsSlice = createSlice({
         state.error = action.error.message;
         state.loading = false;
       })
+      .addCase(fetchCommentsByPostId.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchCommentsByPostId.fulfilled, (state, action) => {
+        state.commentsByPostId = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchCommentsByPostId.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.loading = false;
+      })
+
       .addCase(createNewPost.pending, (state) => {
         state.loading = true;
       })

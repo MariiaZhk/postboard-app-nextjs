@@ -22,6 +22,16 @@ export const getPostById = async (id) => {
   }
 };
 
+export const getPostComments = async (id) => {
+  try {
+    const response = await axios.get(`${API_URL}/${id}/comments`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching comments:", error);
+    throw error;
+  }
+};
+
 export const createPost = async (post) => {
   try {
     const response = await axios.post(API_URL, post);

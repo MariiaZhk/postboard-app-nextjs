@@ -10,9 +10,6 @@ import {
   IconButton,
   Typography,
   Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
   Badge,
   LinearProgress,
 } from "@mui/material";
@@ -22,24 +19,36 @@ import CommentIcon from "@mui/icons-material/Comment";
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useNavBar } from "./NavBar/NavBarContext";
-import { deleteExistingPost, fetchPostById } from "@/store/operations";
+import {
+  deleteExistingPost,
+  fetchCommentsByPostId,
+  fetchPostById,
+} from "@/store/operations";
 import { useDispatch, useSelector } from "react-redux";
-import { selectSelectedPost, selectLoading } from "@/store/selectors";
+import {
+  selectSelectedPost,
+  selectLoading,
+  selectCommentsByPostId,
+} from "@/store/selectors";
 import { resetSelectedPost } from "@/store/postsSlice";
 import ConfirmDialog from "./ConfirmDialog";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { PostCommentsDialog } from "./PostCommentsDialog";
 
 export default function PostDetails() {
   const router = useRouter();
   const { id } = useParams();
   const { setTitle, setActions } = useNavBar();
-  const [openComments, setOpenComments] = useState(false);
   const dispatch = useDispatch();
   const selectedPost = useSelector(selectSelectedPost);
   const loading = useSelector(selectLoading);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [openComments, setOpenComments] = useState(false);
+  const comments = useSelector(selectCommentsByPostId);
 
   useEffect(() => {
     dispatch(fetchPostById(id));
+    dispatch(fetchCommentsByPostId(id));
     return () => {
       dispatch(resetSelectedPost());
     };
@@ -49,7 +58,7 @@ export default function PostDetails() {
     setTitle(`Post #${id}`);
     setActions(
       <IconButton color="inherit" onClick={() => setOpenComments(true)}>
-        <Badge badgeContent={3} color="error">
+        <Badge badgeContent={comments.length} color="error">
           <CommentIcon />
         </Badge>
       </IconButton>
@@ -58,7 +67,7 @@ export default function PostDetails() {
       setTitle("DOiT MVP");
       setActions(null);
     };
-  }, [id]);
+  }, [id, comments]);
 
   const handleBack = () => router.push("/posts");
 
@@ -93,21 +102,37 @@ export default function PostDetails() {
             <Typography variant="body1">{selectedPost.body}</Typography>
           </CardContent>
           <CardActions>
-            <Button color="error" onClick={() => setOpenDeleteDialog(true)}>
-              <DeleteIcon sx={{ mr: 1 }} />
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => setOpenDeleteDialog(true)}
+              sx={{
+                gap: 1,
+              }}
+            >
+              <DeleteIcon />
               Delete
             </Button>
-            <Button onClick={handleBack}>To Posts List</Button>
+
+            <Button
+              variant="outlined"
+              onClick={handleBack}
+              sx={{
+                gap: 1,
+              }}
+            >
+              <ArrowBackIcon />
+              To Posts List
+            </Button>
           </CardActions>
         </Card>
       </Box>
 
-      <Dialog open={openComments} onClose={() => setOpenComments(false)}>
-        <DialogTitle>Comments</DialogTitle>
-        <DialogContent>
-          <Typography>Comments go here (fetch later)</Typography>
-        </DialogContent>
-      </Dialog>
+      <PostCommentsDialog
+        id={selectedPost.id}
+        open={openComments}
+        onClose={() => setOpenComments(false)}
+      />
 
       <ConfirmDialog
         open={openDeleteDialog}

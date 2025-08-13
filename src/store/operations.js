@@ -4,6 +4,7 @@ import {
   createPost,
   updatePost,
   deletePost,
+  getPostComments,
   getPostById,
 } from "@/services/api";
 
@@ -17,6 +18,14 @@ export const fetchPostById = createAsyncThunk(
   async (id) => {
     const post = await getPostById(id);
     return post;
+  }
+);
+
+export const fetchCommentsByPostId = createAsyncThunk(
+  "posts/fetchCommentsByPostId",
+  async (id) => {
+    const comments = await getPostComments(id);
+    return comments;
   }
 );
 
