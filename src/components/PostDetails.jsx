@@ -3,9 +3,9 @@
 import {
   Box,
   Card,
-  CardActions,
-  CardContent,
   CardHeader,
+  CardContent,
+  CardActions,
   Avatar,
   IconButton,
   Typography,
@@ -13,18 +13,18 @@ import {
   Badge,
   LinearProgress,
 } from "@mui/material";
-
 import DeleteIcon from "@mui/icons-material/Delete";
 import CommentIcon from "@mui/icons-material/Comment";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavBar } from "./NavBar/NavBarContext";
 import {
-  deleteExistingPost,
-  fetchCommentsByPostId,
   fetchPostById,
+  fetchCommentsByPostId,
+  deleteExistingPost,
 } from "@/store/operations";
-import { useDispatch, useSelector } from "react-redux";
 import {
   selectSelectedPost,
   selectLoading,
@@ -32,26 +32,24 @@ import {
 } from "@/store/selectors";
 import { resetSelectedPost } from "@/store/postsSlice";
 import ConfirmDialog from "./ConfirmDialog";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { PostCommentsDialog } from "./PostCommentsDialog";
 
 export default function PostDetails() {
   const router = useRouter();
   const { id } = useParams();
-  const { setTitle, setActions } = useNavBar();
   const dispatch = useDispatch();
+  const { setTitle, setActions } = useNavBar();
   const selectedPost = useSelector(selectSelectedPost);
   const loading = useSelector(selectLoading);
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [openComments, setOpenComments] = useState(false);
   const comments = useSelector(selectCommentsByPostId);
+
+  const [openDelete, setOpenDelete] = useState(false);
+  const [openComments, setOpenComments] = useState(false);
 
   useEffect(() => {
     dispatch(fetchPostById(id));
     dispatch(fetchCommentsByPostId(id));
-    return () => {
-      dispatch(resetSelectedPost());
-    };
+    return () => dispatch(resetSelectedPost());
   }, [id]);
 
   useEffect(() => {
@@ -67,10 +65,9 @@ export default function PostDetails() {
       setTitle("DOiT MVP");
       setActions(null);
     };
-  }, [id, comments]);
+  }, [comments, id]);
 
   const handleBack = () => router.push("/posts");
-
   const handleDelete = () => {
     dispatch(deleteExistingPost(selectedPost.id));
     handleBack();
@@ -78,9 +75,9 @@ export default function PostDetails() {
 
   if (loading || !selectedPost) {
     return (
-      <Box sx={{ mt: 2 }}>
+      <Box sx={{ mt: 2, px: 2 }}>
         <LinearProgress />
-        <Typography sx={{ mt: 2, px: 2 }}>Loading post details...</Typography>
+        <Typography sx={{ mt: 2 }}>Loading post details...</Typography>
       </Box>
     );
   }
@@ -95,33 +92,28 @@ export default function PostDetails() {
                 {selectedPost.title.charAt(0).toUpperCase()}
               </Avatar>
             }
-            title={selectedPost.title}
+            title={<Typography>{selectedPost.title}</Typography>}
             subheader={`User: ${selectedPost.userId}`}
           />
           <CardContent>
-            <Typography variant="body1">{selectedPost.body}</Typography>
+            <Typography variant="body2" color="text.primary">
+              {selectedPost.body}
+            </Typography>
           </CardContent>
-          <CardActions>
+          <CardActions sx={{ gap: 1 }}>
             <Button
               variant="contained"
               color="error"
-              onClick={() => setOpenDeleteDialog(true)}
-              sx={{
-                gap: 1,
-              }}
+              startIcon={<DeleteIcon />}
+              onClick={() => setOpenDelete(true)}
             >
-              <DeleteIcon />
               Delete
             </Button>
-
             <Button
               variant="outlined"
+              startIcon={<ArrowBackIcon />}
               onClick={handleBack}
-              sx={{
-                gap: 1,
-              }}
             >
-              <ArrowBackIcon />
               To Posts List
             </Button>
           </CardActions>
@@ -135,11 +127,11 @@ export default function PostDetails() {
       />
 
       <ConfirmDialog
-        open={openDeleteDialog}
-        onClose={() => setOpenDeleteDialog(false)}
+        open={openDelete}
+        onClose={() => setOpenDelete(false)}
         onConfirm={() => {
           handleDelete();
-          setOpenDeleteDialog(false);
+          setOpenDelete(false);
         }}
         title="Delete this post?"
       />

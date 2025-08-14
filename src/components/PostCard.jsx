@@ -21,8 +21,8 @@ import ConfirmDialog from "./ConfirmDialog";
 
 export default function PostCard({ post }) {
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
 
   const handleDeleteClick = (e) => {
     e.currentTarget.blur();
@@ -67,14 +67,22 @@ export default function PostCard({ post }) {
               {post.title}
             </Typography>
           }
-          subheader={
-            <Typography color="text.secondary">{`User: ${post.userId}`}</Typography>
-          }
+          subheader={`User: ${post.userId}`}
         />
 
         <CardContent sx={{ flexGrow: 1 }}>
-          <Typography variant="body2" color="text.primary">
-            {post.body.slice(0, 100)}...
+          <Typography
+            variant="body2"
+            color="text.primary"
+            sx={{
+              display: "-webkit-box",
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {post.body}
           </Typography>
         </CardContent>
 
@@ -82,10 +90,9 @@ export default function PostCard({ post }) {
           <Button
             component={Link}
             href={`/posts/${post.id}`}
-            aria-label="read more"
-            color="text.primary"
+            startIcon={<ArrowForwardIcon />}
           >
-            <ArrowForwardIcon />
+            Read more
           </Button>
         </CardActions>
       </Card>
